@@ -2,7 +2,6 @@ import numpy as np
 import cv2 as cv
 from Step1 import api as register
 from Step2 import api as detector
-from Step2.func import Box
 from typing import List, Tuple
 
 # read video file
@@ -50,10 +49,9 @@ while cap.isOpened():
     # @boxes: rects that cover the defect region
     diff, boxes = detector(base, target, expand_p=1.2)
 
-
     for box in boxes:
         #img2 = cv.rectangle(img2, (box.xmin, box.ymin), (box.xmax, box.ymax), (255,255,0), thickness=2)
-        diff = cv.rectangle(diff, (box.xmin, box.ymin), (box.xmax, box.ymax), (255,0,0), thickness=0)
+        diff = cv.rectangle(diff, (box.left, box.top), (box.right, box.bottom), (255,0,0), thickness=0)
     
     cv.imshow('diff', diff)
     cv.imshow('frame', img3)

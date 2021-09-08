@@ -1,6 +1,7 @@
 from __future__ import annotations
 import numpy as np
 
+ratio = 1.0
 
 class Rect:
     def __init__(self, left, top, right, bottom) -> None:
@@ -8,9 +9,25 @@ class Rect:
         self.top = top
         self.right = right
         self.bottom = bottom
+    
+    @staticmethod
+    def setRatio(val):
+        global ratio 
+        ratio = val
 
-    def __mul__(self, other):
-        return self.left < other.right and other.left < self.right and self.top < other.bottom and other.top < self.bottom
+    @property
+    def x_ext(self):
+        return (self.right - self.left) * (ratio - 1.0) // 2
+
+    @property
+    def y_ext(self):
+        return (self.bottom - self.top) * (ratio - 1.0) // 2
+
+    def __mul__(self, other: Rect):
+        return self.left - self.x_ext < other.right + self.x_ext \
+            and other.left - self.x_ext < self.right + self.x_ext \
+            and self.top - self.y_ext < other.bottom + self.y_ext \
+            and other.top - self.y_ext < self.bottom + self.y_ext
 
     def union(self, left, top, right, bottom):
         if ((left < right) and (top < bottom)):
@@ -33,7 +50,7 @@ class Rect:
         return f'|left: {self.left}, top: {self.top}, right: {self.right}, bottom: {self.bottom}|'
 
             
-rects = [Rect(0,0,2,2), Rect(1,1,3,3), Rect(2,2,4,4), Rect(5, 5, 7, 7), Rect(6,6,8,8), Rect(9,9, 11, 11)]
+rects = [Rect(0,0,2,2), Rect(1,1,3,3), Rect(2,2,4,4), Rect(5, 5, 7, 7), Rect(6,6,8,8), Rect(20,20, 22, 22)]
 
 rects = np.array(rects)
 # b = np.outer(a,a)
@@ -53,6 +70,8 @@ rects = np.array(rects)
 
 check = [False]*len(rects)
 check = np.array(check).astype('bool')
+
+Rect.setRatio(1.5)
 
 for i in range(len(rects)-1):
     for j in range(i+1, len(rects)):

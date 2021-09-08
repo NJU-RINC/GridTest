@@ -14,15 +14,33 @@ class Box:
         self.ymin = ymin
         self.ymax = ymax
 
+ratio = 1.0
+
 class Rect:
     def __init__(self, left, top, right, bottom) -> None:
         self.left = left
         self.top = top
         self.right = right
         self.bottom = bottom
+    
+    @staticmethod
+    def setRatio(val):
+        global ratio 
+        ratio = val
 
-    def __mul__(self, other):
-        return self.left < other.right and other.left < self.right and self.top < other.bottom and other.top < self.bottom
+    @property
+    def x_ext(self):
+        return (self.right - self.left) * (ratio - 1.0) // 2
+
+    @property
+    def y_ext(self):
+        return (self.bottom - self.top) * (ratio - 1.0) // 2
+
+    def __mul__(self, other: Rect):
+        return self.left - self.x_ext < other.right + self.x_ext \
+            and other.left - self.x_ext < self.right + self.x_ext \
+            and self.top - self.y_ext < other.bottom + self.y_ext \
+            and other.top - self.y_ext < self.bottom + self.y_ext
 
     def union(self, left, top, right, bottom):
         if ((left < right) and (top < bottom)):
@@ -79,6 +97,7 @@ def get_box(img, threshold_point,threshold_point2,image2,ab_num,expand_p):
     for i in range(min(numm,ab_num)):
         image_list.append(Rect(res_area[i].bbox[1],res_area[i].bbox[0],res_area[i].bbox[3],res_area[i].bbox[2]))
 
+    Rect.setRatio(1.6)
     return merge(image_list)
 
     # while(1):

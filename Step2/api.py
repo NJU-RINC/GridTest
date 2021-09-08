@@ -34,8 +34,9 @@ def api(image1: np.ndarray, image2: np.ndarray, expand_p: float) -> Tuple[np.nda
     change_map = diff_image.astype(np.uint8)
 
     kernel = np.ones((3, 3), np.uint8)
-
-    cleanChangeMap = cv2.erode(change_map, kernel)  # 腐蚀操作
+    
+    cleanChangeMap = change_map
+    cleanChangeMap = cv2.erode(cleanChangeMap, kernel)  # 腐蚀操作
     cleanChangeMap = cv2.dilate(cleanChangeMap, kernel)  # 膨胀操作
 
     area_threshold = 0.001 * fig_size  # 1/1000就可以达成异常

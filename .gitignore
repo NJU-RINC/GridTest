@@ -1,4 +1,5 @@
 __pycache__
 data
 *.pth
+*.mp4
 thresholds.txt

@@ -1,13 +1,13 @@
 from Step1 import api as register
-from Step2 import api as detector
+# from Step2 import api as detector
 # from Step3 import api as recognizer
 import numpy as np
 import cv2 as cv
 
 import time
 
-a = f'data/sly_bjbmyw_16.jpg'
-b = f'data/sly_bjbmyw_16_s1.jpg'
+a = f'data/yw_gkxfw_18.jpg'
+b = f'data/yw_gkxfw_18_s2.jpg'
 
 
 img1 = cv.imread(a)
@@ -22,9 +22,9 @@ step1_end= time.time()
 cv.imwrite('base.jpg', base)
 cv.imwrite('target.jpg', target)
 
-step2_start = time.time()
-cropped_list = detector(base, target)
-step2_end = time.time()
+# step2_start = time.time()
+# cropped_list = detector(base, target)
+# step2_end = time.time()
 
 # step3_start = time.time()
 # preds, *_ = recognizer(cropped_list)

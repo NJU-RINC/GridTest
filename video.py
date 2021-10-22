@@ -26,7 +26,7 @@ ret, frame = cap.read() # read() will always get next frame, so var 'frame' here
 
 # img1 as base img
 img1 = frame
-img1 = frame[60:900, 44:500:, :] # avoid camera broder distortion
+#img1 = frame[60:900, 44:500:, :] # avoid camera broder distortion
 
 # again set the start frame id so that defect directly occurs
 cnt = cap.set(cv.CAP_PROP_POS_FRAMES, 150.0)
@@ -42,7 +42,7 @@ while cap.isOpened():
         print("Can't receive frame (stream end?). Exiting ...")
         break
     # img2 as target img with defect
-    img2 = frame[60:900, 44:500:, :]
+    img2 = frame #[60:900, 44:500:, :]
     base, target = register(img1, img2) # @base: registed base img; @target: masked target img with defect
 
     # blend registed base img and unmasked target img in 3rd channel
